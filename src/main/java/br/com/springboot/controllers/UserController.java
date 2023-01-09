@@ -27,9 +27,11 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User user(@PathVariable("id") Long id) {
-        System.out.println("O id é "+id);
+        
+        // System.out.println("O id é "+id);
     
-        Optional<User> userFind = users.stream().filter(user -> user.getId() == id).findFirst();
+        // Optional<User> userFind = users.stream().filter(user -> user.getId() == id).findFirst();
+        Optional<User> userFind = this.userRepository.findById(id);
 
         if (userFind.isPresent()) {
             return userFind.get();
@@ -54,7 +56,12 @@ public class UserController {
 
     @GetMapping("/List")
     public List<User> list() {
-        return users;
+        return this.userRepository.findAll();
     }
 
+    @GetMapping("/List/{id}")
+    public List<User> listMoreThan(@PathVariable("id") Long id) {
+        // return this.userRepository.findAllMoreThan(id);
+       return this.userRepository.findByIdGreaterThan(id);
+    } 
 }
